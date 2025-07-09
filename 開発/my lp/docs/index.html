@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CNP TCG 王者LP">
+  <title>Pontamaru_18 - トレーディングカードキング</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE STYLES ===== */
+    :root {
+      --color-bg: #0E0E0E;
+      --color-gold: #F5D300;
+      --color-red: #E63946;
+      --color-white: #FFFFFF;
+      --font-heading: 'Bebas Neue', sans-serif;
+      --font-body: 'Noto Sans JP', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      color: var(--color-white);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      z-index: -2;
+      animation: float 30s ease-in-out infinite;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+      letter-spacing: 0.05em;
+      line-height: 1.2;
+      font-weight: 400;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .section {
+      padding: 80px 0;
+      position: relative;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-align: center;
+      margin: 0 auto 3rem;
+      background: linear-gradient(135deg, #f5d300, #ffea83);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      display: block;
+      width: fit-content;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #f5d300, #ff9a00);
+      border-radius: 3px;
+    }
+
+    /* ===== BUTTON STYLES ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 2px solid transparent;
+      cursor: pointer;
+      font-size: 0.9rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      z-index: -1;
+      transition: transform 0.3s ease;
+      transform: scaleX(0);
+      transform-origin: right;
+    }
+
+    .btn:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .btn-primary {
+      background-color: var(--color-gold);
+      color: #000;
+      box-shadow: 0 4px 15px rgba(245, 211, 0, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-color: #000;
+      color: var(--color-gold);
+      border-color: var(--color-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(245, 211, 0, 0.4);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--color-white);
+      border: 2px solid var(--color-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-outline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--color-white);
+      z-index: -1;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    .btn-outline:hover {
+      color: var(--color-bg);
+      border-color: transparent;
+    }
+
+    .btn-outline:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* ===== CARD STYLES ===== */
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      height: 100%;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .card-link svg {
+      width: 18px;
+      height: 18px;
+      margin-left: 10px;
+      transition: transform 0.4s ease;
+    }
+
+    .card-link::after {
+      content: '→';
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      color: var(--color-gold);
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .card-link:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(30, 30, 30, 0.6), rgba(15, 15, 15, 0.8));
+      border-radius: 20px;
+      padding: 45px 30px;
+      text-align: center;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(245, 211, 0, 0.1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      transform-style: preserve-3d;
+      transform: translateZ(0);
+      height: 100%;
+    }
+    
+    .featured-card {
+      border: 1px solid rgba(245, 211, 0, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .featured-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(245, 211, 0, 0.03), transparent);
+      z-index: -1;
+      border-radius: 20px;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+      opacity: 0;
+      transition: all 0.6s ease;
+      z-index: 2;
+    }
+
+    .card:hover {
+      transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      border-color: rgba(245, 211, 0, 0.3);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+      transform: translateY(0);
+      animation: shine 2s infinite;
+    }
+
+    .card-title {
+      font-size: 1.9rem;
+      margin: 0 0 25px 0;
+      color: #fff;
+      position: relative;
+      display: inline-block;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title svg {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 25px;
+      fill: var(--color-gold);
+      filter: drop-shadow(0 0 10px rgba(245, 211, 0, 0.5));
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card:hover .card-title svg {
+      transform: translateY(-5px) scale(1.1);
+      filter: drop-shadow(0 0 15px rgba(245, 211, 0, 0.8));
+    }
+
+    .card-text {
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 30px;
+      line-height: 1.9;
+      font-size: 1.1rem;
+      position: relative;
+      padding: 0 10px;
+    }
+
+    .card-text::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+      opacity: 0.5;
+      transition: all 0.4s ease;
+    }
+
+    .card:hover .card-text::after {
+      width: 80px;
+      opacity: 1;
+    }
+
+    .card-link-text {
+      color: var(--color-gold);
+      text-align: right;
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-top: auto;
+      padding-top: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-link-text {
+      transform: translateX(5px);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 80px 20px 100px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      z-index: 1;
+      animation: float 20s linear infinite;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-icon {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid var(--color-gold);
+      box-shadow: 0 0 30px rgba(245, 211, 0, 0.5);
+      margin-bottom: 2.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .hero-icon:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(245, 211, 0, 0.7);
+    }
+
+    .hero-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 7.5vw, 5rem);
+      margin: 0 0 1.2rem 0;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow: 0 0 15px rgba(245, 211, 0, 0.5), 
+                   0 0 30px rgba(245, 211, 0, 0.3);
+      position: relative;
+      display: inline-block;
+      font-weight: 800;
+      animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0);
+      }
+      25% {
+        transform: translateY(-10px) translateX(-10px);
+      }
+      50% {
+        transform: translateY(0) translateX(0);
+      }
+      75% {
+        transform: translateY(10px) translateX(10px);
+      }
+      100% {
+        transform: translateY(0) translateX(0);
+      }
+    }
+    
+    @keyframes titleGlow {
+      from {
+        text-shadow: 0 0 20px rgba(245, 211, 0, 0.5), 
+                     0 0 40px rgba(245, 211, 0, 0.3);
+      }
+      to {
+        text-shadow: 0 0 30px rgba(245, 211, 0, 0.7), 
+                     0 0 50px rgba(245, 211, 0, 0.5),
+                     0 0 70px rgba(245, 211, 0, 0.3);
+      }
+    }
+
+    .hero-subtitle {
+      font-size: 1.8rem;
+      margin: 2rem 0 3.5rem;
+      color: #fff;
+      max-width: 800px;
+      line-height: 1.6;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(90deg, #f5d300, #ffea83);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      padding: 0.5rem 2rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .hero-subtitle::before,
+    .hero-subtitle::after {
+      content: '✧';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-gold);
+      font-size: 1.2em;
+      opacity: 0.8;
+    }
+    
+    .hero-subtitle::before {
+      left: 0;
+    }
+    
+    .hero-subtitle::after {
+      right: 0;
+    }
+
+    .hero-subtitle2 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      width: 100%;
+    }
+
+    @media (max-width: 576px) {
+      .hero-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .hero-buttons .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about {
+      padding: 140px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(245, 211, 0, 0.03) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(245, 211, 0, 0.03) 0%, transparent 30%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+      perspective: 1000px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      margin-top: 80px;
+      position: relative;
+    }
+
+    @media (max-width: 992px) {
+      .about {
+        padding: 100px 0;
+      }
+      
+      .about-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+      
+      .card {
+        padding: 35px 25px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .about {
+        padding: 80px 0;
+      }
+      
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+      
+      .card {
+        padding: 30px 20px;
+      }
+      
+      .card-title {
+        font-size: 1.7rem;
+        margin-bottom: 20px;
+      }
+      
+      .card-text {
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background-color: #0a0a0a;
+      padding: 40px 0;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    .footer-powered {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-1000px) rotate(360deg);
+      }
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 767px) {
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content" data-animate="fade-up">
+      <div class="hero-icon">
+        <img src="https://data.cryptoninjapartners.com/images/22732.png" alt="Pontamaru_18">
+      </div>
+      <h1 class="hero-title">ぽんたまる</h1>
+      <div class="hero-subtitle">
+        <div>FiNANCiE</div>
+        <div>CNPトレカ チャンネルリーダー</div>
+      </div>
+      <div class="hero-buttons">
+        <a href="https://x.com/Pontamaru_18" class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Xでフォロー">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+            <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+            <path d="M4 20l6.768 -6.768m2.46 -2.437l6.772 -7.795"></path>
+          </svg>
+          フォロー
+        </a>
+        <a href="https://note.com/pontamaru_18" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="note記事を読む">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          note 記事を読む
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="section about">
+    <div class="about-container">
+      <h2 class="section-title" data-animate="fade-up">ABOUT</h2>
+      
+      <div class="about-grid">
+        <div class="card" data-animate="fade-up" data-animate-delay="0.2s">
+          <h3 class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            チーム運営
+          </h3>
+          <p class="card-text">
+            CNPトレカのチーム運営中。興味ある方はXでDMしてください。
+            無料/審査あり
+          </p>
+          <a href="https://x.com/pontamaru_18" class="card-link" target="_blank" rel="noopener noreferrer" aria-label="X(Twitter)でDMを送る">
+            DMを送る
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+        
+        <div class="card featured-card" data-animate="fade-up" data-animate-delay="0.3s">
+          <h3 class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            戦績
+          </h3>
+          <p class="card-text">
+            東京プレ大会優勝🥇
+          </p>
+          <a href="https://note.com/pontamaru_18/n/n9114c7063f40" class="card-link" target="_blank" rel="noopener noreferrer" aria-label="戦績の詳細をnoteで見る">
+            詳しく見る
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+        
+        <div class="card" data-animate="fade-up" data-animate-delay="0.4s">
+          <h3 class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            FiNANCiE
+          </h3>
+          <p class="card-text">
+            【JHQG9P】を招待コード欄に入力してトークンをゲット
+          </p>
+          <a href="https://financie.jp/download/" class="card-link" target="_blank" rel="noopener noreferrer" aria-label="FiNANCiEのダウンロードページを開く">
+            登録はこちら
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+                </div>
+              </div>
+            </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOLLOW SECTION -->
+  <section id="follow" class="section">
+    <div class="container">
+      <h2 class="section-title" data-animate="fade-up">Follow & Subscribe</h2>
+      <div style="text-align: center; max-width: 800px; margin: 0 auto;" data-animate="fade-up">
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;">最新情報は X と note で発信中！</p>
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="https://x.com/Pontamaru_18" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="フォロー">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                    <path d="M4 20l6.768 -6.768m2.46 -2.437l6.772 -7.795"></path>
+                  </svg>
+                  <span>フォロー</span>
+                </a>
+          <a href="https://note.com/pontamaru_18" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="note記事を読む">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          <span>note 記事を読む</span>
+        </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOB REQUEST SECTION -->
+  <section id="job-request" class="section" style="background-color: #121212;">
+    <div class="container" style="text-align: center;">
+      <h2 class="section-title" data-animate="fade-up">JOB REQUEST</h2>
+      <div style="font-size: 1.2rem; line-height: 2; margin-bottom: 2rem;" data-animate="fade-up">
+        <p>Mail：<a href="mailto:baseball.aim.koala@gmail.com" style="color: var(--color-gold); text-decoration: none;">baseball.aim.koala@gmail.com</a></p>
+        <p>X：<a href="https://x.com/Pontamaru_18" target="_blank" rel="noopener noreferrer" style="color: var(--color-gold); text-decoration: none;">DM</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>© 2025 Pontamaru_18 All Rights Reserved.</p>
+      <p class="footer-powered">Powered by Windsurf</p>
+    </div>
+  </footer>
+
+  <script>
+    // Intersection Observer for scroll animations
+    document.addEventListener('DOMContentLoaded', function() {
+      const animateElements = document.querySelectorAll('[data-animate]');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const animation = entry.target.getAttribute('data-animate');
+            const delay = entry.target.style.transitionDelay || '0s';
+            entry.target.style.opacity = '0';
+            entry.target.style.transform = 'translateY(20px)';
+            entry.target.style.transition = `opacity 0.6s ease-out, transform 0.6s ease-out ${delay}`;
+            
+            // Trigger reflow
+            void entry.target.offsetWidth;
+            
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            
+            // Unobserve after animation
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.3
+      });
+
+      animateElements.forEach(element => {
+        observer.observe(element);
+      });
+    });
+  </script>
+</body>
+</html>
