@@ -33,10 +33,23 @@
 
     body {
       font-family: var(--font-body);
-      background-color: var(--color-bg);
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
       color: var(--color-white);
       line-height: 1.6;
       overflow-x: hidden;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      z-index: -2;
+      animation: float 30s ease-in-out infinite;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -352,7 +365,6 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
       padding: 80px 20px 100px;
     }
 
@@ -413,6 +425,24 @@
       display: inline-block;
       font-weight: 800;
       animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0);
+      }
+      25% {
+        transform: translateY(-10px) translateX(-10px);
+      }
+      50% {
+        transform: translateY(0) translateX(0);
+      }
+      75% {
+        transform: translateY(10px) translateX(10px);
+      }
+      100% {
+        transform: translateY(0) translateX(0);
+      }
     }
     
     @keyframes titleGlow {
@@ -495,7 +525,6 @@
     /* ===== ABOUT SECTION ===== */
     .about {
       padding: 140px 0;
-      background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
       position: relative;
       overflow: hidden;
     }
@@ -661,10 +690,10 @@
               <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
-            CNPトレカチーム
+            チーム運営
           </h3>
           <p class="card-text">
-            CNPトレカチーム運営。興味ある方はXでDMしてください。
+            CNPトレカのチーム運営中。興味ある方はXでDMしてください。
             無料/審査あり
           </p>
           <a href="https://x.com/pontamaru_18" class="card-link" target="_blank" rel="noopener noreferrer" aria-label="X(Twitter)でDMを送る">
